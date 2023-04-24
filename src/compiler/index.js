@@ -8,5 +8,9 @@ export function compileToFunction(template) {
   
   // 生成代码
   let code = generate(root)
-  console.log(code)
+
+  // 生成函数
+  let render = new Function(`with(this){ return ${code} }`)
+
+  return render
 }
