@@ -1,4 +1,5 @@
 import { arrayMethods } from './array'
+import Dep from './dep';
 
 class Observer {
   constructor(data) {
@@ -37,16 +38,23 @@ class Observer {
 function defineReactive(data, key, value) {
   // 处理 data 属性为对象的情况
   observe(value);
+  let dep = new Dep(); // 属性添加一个 dep 属性
   Object.defineProperty(data, key, {
     get() {
+      // 取值过程关联 dep 和 watcher
+      if(Dep.target) {
+        dep.depend()
+      }
       return value
     },
     set(val) {
-      // 处理 data 属性赋值为对象的情况
-      observe(value);
-      value = val
-
-      // 更新视图
+      if(val !== value) {
+        // 处理 data 属性赋值为对象的情况
+        observe(value);
+        value = val
+        // 更新视图
+        dep.notify() // 通知 dep 中 watcher 更新
+      }
     }
   })
 }

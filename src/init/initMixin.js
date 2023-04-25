@@ -36,6 +36,7 @@ export function initMixin(MVue) {
   }
   MVue.prototype.$mount = function(el) {
     let ele = document.querySelector(el)
+    this.$el = ele // this -> vm
 
     // 模板转化为渲染函数 -> 虚拟 dom -> diff 算法更新虚拟 dom -> 更新 dom
     if(!this.$options.render) {

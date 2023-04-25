@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="app">hello, {{ name }}</div>
+    <div></div>
     <script src="dist/mvue.js"></script>
 
     <script>
@@ -19,6 +20,10 @@
           }
         }
       })
+
+      setTimeout(() => {
+        vm.name = 'huang'
+      }, 1000);
     </script>
 </body>
 </html>
