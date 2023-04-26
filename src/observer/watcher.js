@@ -1,4 +1,5 @@
 import { pushTarget, popTarget } from "./dep"
+import { queueWatcher } from "./scheduler"
 
 let id = 0
 class Watcher {
@@ -13,9 +14,9 @@ class Watcher {
     this.depsId = new Set();
 
     // 默认执行
-    this.update()
+    this.get()
   }
-  update() {
+  get() {
     // 关联属性和watcher，属性与watcher之间是多对多的关系
     // 取值之前关联 watcher 和 dep
     pushTarget(this)
@@ -31,6 +32,13 @@ class Watcher {
       this.deps.push(dep)
       dep.addSub(this) // dep 添加 watcher
     }
+  }
+  update() {
+    queueWatcher(this) // 缓存 watcher，优化多次更新同一watcher
+  }
+  run() {
+    console.log('----')
+    this.get()
   }
 }
 

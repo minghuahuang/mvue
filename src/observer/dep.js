@@ -16,8 +16,8 @@ class Dep {
     this.subs.push(watcher)
   }
   notify() {
-    this.subs.forEach(watch => {
-      watch.update()
+    this.subs.forEach(watcher => {
+      watcher.update()
     })
   }
 }
