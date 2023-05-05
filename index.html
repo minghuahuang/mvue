@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 <body>
-    <div id="app">hello, {{ name }}</div>
+    <div id="app">hello, {{ arr }}</div>
     <div></div>
     <script src="dist/mvue.js"></script>
 
@@ -17,20 +17,14 @@
         data() {
           return {
             name: 'ming',
+            arr: [[1,2,3]]
           }
         }
       })
-
+      
       setTimeout(() => {
-        vm.name = 'huang'
-        vm.name = 'hahah'
-        vm.name = 'oooo'
-        vm.name = 'didadida'
-
-        setTimeout(() => {
-          console.log(vm.$el)
-        })
-      }, 1000);
+        vm.arr[0].push(4)
+      },1000)
     </script>
 </body>
 </html>

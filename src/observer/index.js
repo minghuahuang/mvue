@@ -6,6 +6,8 @@ class Observer {
     // 为 array 传递 observeArray 方法，此外所有拦截属性均有 __ob__，可以判断是否拦截过
     // data.__ob__ = this
 
+    this.dep = new Dep()
+
     // 上述 data 添加 __ob__ 属性，属性值为 this 对象，又会走 defineReactive 方法 导致栈溢出问题
     Object.defineProperty(data, '__ob__', {
       value: this,
@@ -35,15 +37,34 @@ class Observer {
   }
 }
 
+function dependArray(arr) {
+  for(let i = 0; i < arr.length; i++) {
+    let current = arr[i]
+    current.__ob__ && current.__ob__.dep.depend() // 数组中元素依旧数组继续收集
+    if(Array.isArray(current)) {
+      dependArray(current)
+    }
+  }
+}
+
 function defineReactive(data, key, value) {
   // 处理 data 属性为对象的情况
-  observe(value);
+  let childOb = observe(value);
+
   let dep = new Dep(); // 属性添加一个 dep 属性
+
   Object.defineProperty(data, key, {
     get() {
       // 取值过程关联 dep 和 watcher
       if(Dep.target) {
         dep.depend()
+        if(childOb) {
+          childOb.dep.depend()
+          // 数组内的数组进行依赖收集
+          if(Array.isArray(value)) {
+            dependArray(value)
+          }
+        }
       }
       return value
     },
@@ -67,7 +88,7 @@ export function observe(data) {
 
   // 拦截过的属性不再拦截
   if(data.__ob__) {
-    return
+    return data.__ob__
   }
 
   return new Observer(data)
@@ -81,3 +102,5 @@ export function observe(data) {
 // 存在问题：data 的属性数组通过索引增加和修改，数据不会被劫持
 
 // push pop shift unshift reverse sort splice 重写，保证监测数组
+
+// Vue2 嵌套层次不能太深，递归太多
