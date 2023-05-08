@@ -23,5 +23,4 @@ export function queueWatcher(watcher) {
       pending = true
     }
   }
-  console.log(queue)
 }

@@ -7,23 +7,35 @@
   <title>Document</title>
 </head>
 <body>
-    <div id="app">hello, {{ arr }}</div>
+    <div id="app">hello, {{ name }}</div>
     <div></div>
     <script src="dist/mvue.js"></script>
 
     <script>
       let vm = new MVue({
+        name: 'App',
         el: '#app',
         data() {
           return {
             name: 'ming',
-            arr: [[1,2,3]]
+            obj: {
+              age: 10
+            }
+          }
+        },
+        watch: {
+          name: function(newV, oldV) {
+            console.log(newV,oldV)
+          },
+          'obj.age': function(newV, oldV) {
+            console.log(newV,oldV)
           }
         }
       })
-      
+
       setTimeout(() => {
-        vm.arr[0].push(4)
+        vm.name = 'hua'
+        vm.obj.age = 20
       },1000)
     </script>
 </body>
