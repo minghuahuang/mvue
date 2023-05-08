@@ -15,7 +15,7 @@ function initState(vm) {
     initData(vm)
   }
   if(opts.computed) {
-    initComputed(opts.computed)
+    initComputed(vm, opts.computed)
   }
   if(opts.watch) {
     initWatch(vm, opts.watch)

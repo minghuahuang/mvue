@@ -7,10 +7,12 @@ class Watcher {
   constructor(vm, executor, callback, options) {
     this.vm = vm
     this.executor = executor
-    this.user = !!options.user // 标识是否为用户wather
     this.callback = callback
     this.options = options
     this.id = id++
+
+    this.user = !!options.user // 标识是否为用户wather
+    this.lazy = !!options.lazy // 判断是否立即执行computed
 
     if(typeof executor === 'string') {
       this.getter = function() {
@@ -36,7 +38,7 @@ class Watcher {
     // 取值之前关联 watcher 和 dep
     pushTarget(this)
 
-    const value = this.getter() // 执行 updateComponent 中 render 会通过 witch+Function 触发劫持数据属性的 get 方法（observer/index）
+    const value = this.lazy ? undefined : this.getter() // 执行 updateComponent 中 render 会通过 witch+Function 触发劫持数据属性的 get 方法（observer/index）
 
     popTarget()
 

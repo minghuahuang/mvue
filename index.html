@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 <body>
-    <div id="app">hello, {{ name }}</div>
+    <div id="app">hello, {{ fullName }}, and {{ pathName }}</div>
     <div></div>
     <script src="dist/mvue.js"></script>
 
@@ -17,26 +17,31 @@
         el: '#app',
         data() {
           return {
-            name: 'ming',
-            obj: {
-              age: 10
-            }
+            firstName: 'ming',
+            lastName: 'hua'
           }
         },
-        watch: {
-          name: function(newV, oldV) {
-            console.log(newV,oldV)
+        computed: {
+          fullName() {
+            console.log('-----')
+            return this.firstName + this.lastName
           },
-          'obj.age': function(newV, oldV) {
-            console.log(newV,oldV)
+          pathName: {
+            get() {
+              return this.lastName + this.firstName
+            },
+            set(value) {
+              console.log(value)
+            },
           }
-        }
+        },
       })
 
-      setTimeout(() => {
-        vm.name = 'hua'
-        vm.obj.age = 20
-      },1000)
+      vm.fullName
+      vm.fullName
+      vm.fullName
+      vm.fullName
+
     </script>
 </body>
 </html>
