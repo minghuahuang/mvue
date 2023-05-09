@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 <body>
-    <div id="app">hello, {{ fullName }}, and {{ pathName }}</div>
+    <div id="app">hello, {{ pathName }}</div>
     <div></div>
     <script src="dist/mvue.js"></script>
 
@@ -22,12 +22,12 @@
           }
         },
         computed: {
-          fullName() {
-            console.log('-----')
-            return this.firstName + this.lastName
-          },
+          // fullName() {
+          //   return this.firstName + this.lastName
+          // },
           pathName: {
             get() {
+              console.log('----')
               return this.lastName + this.firstName
             },
             set(value) {
@@ -37,10 +37,7 @@
         },
       })
 
-      vm.fullName
-      vm.fullName
-      vm.fullName
-      vm.fullName
+      vm.lastName = 'huang'
 
     </script>
 </body>
