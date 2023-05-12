@@ -12,6 +12,17 @@
     <script src="dist/mvue.js"></script>
 
     <script>
+      MVue.mixin({
+        beforeCreate() {
+          console.log('beforeCreate1')
+        },
+      })
+      MVue.mixin({
+        beforeCreate() {
+          console.log('beforeCreate2')
+        },
+      })
+
       let vm = new MVue({
         name: 'App',
         el: '#app',
@@ -27,13 +38,15 @@
           // },
           pathName: {
             get() {
-              console.log('----')
               return this.lastName + this.firstName
             },
             set(value) {
               console.log(value)
             },
           }
+        },
+        beforeCreate() {
+          console.log('beforeCreate3')
         },
       })
 

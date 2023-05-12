@@ -5,6 +5,8 @@ import { initProps } from '../core/props'
 import { initData } from '../core/data'
 import { initComputed } from '../core/computed'
 import { initWatch } from '../core/watch'
+import { mergeOptions } from '../utils/mergeOptions'
+import { callHook } from '../lifecycle/callHook'
 
 function initState(vm) {
   const opts = vm.$options
@@ -24,10 +26,14 @@ function initState(vm) {
 
 export function initMixin(MVue) {
   MVue.prototype._init = function(options) {
-    this.$options = options // this -> vm
+    this.$options = mergeOptions(this.constructor.options, options) // this -> vm
+    
+    callHook(this, 'beforeCreate')
 
     // 初始化数据 props, data, watch, computed
     initState(this)
+
+    callHook(this, 'created')
 
     if(this.$options.el) {
       // 挂载数据
