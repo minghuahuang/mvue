@@ -27,7 +27,7 @@ function initState(vm) {
 export function initMixin(MVue) {
   MVue.prototype._init = function(options) {
     this.$options = mergeOptions(this.constructor.options, options) // this -> vm
-    
+
     callHook(this, 'beforeCreate')
 
     // 初始化数据 props, data, watch, computed

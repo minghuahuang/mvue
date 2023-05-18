@@ -7,50 +7,24 @@
   <title>Document</title>
 </head>
 <body>
-    <div id="app">hello, {{ pathName }}</div>
-    <div></div>
+    <div id="app">
+      <m-title></m-title>
+    </div>
     <script src="dist/mvue.js"></script>
 
     <script>
-      MVue.mixin({
-        beforeCreate() {
-          console.log('beforeCreate1')
-        },
-      })
-      MVue.mixin({
-        beforeCreate() {
-          console.log('beforeCreate2')
-        },
+      MVue.component('m-title', {
+        template: `<h1>global</h1>`
       })
 
       let vm = new MVue({
-        name: 'App',
         el: '#app',
-        data() {
-          return {
-            firstName: 'ming',
-            lastName: 'hua'
+        components: {
+          'm-title': {
+            template: `<h1>scope</h1>`,
           }
-        },
-        computed: {
-          // fullName() {
-          //   return this.firstName + this.lastName
-          // },
-          pathName: {
-            get() {
-              return this.lastName + this.firstName
-            },
-            set(value) {
-              console.log(value)
-            },
-          }
-        },
-        beforeCreate() {
-          console.log('beforeCreate3')
-        },
+        }
       })
-
-      vm.lastName = 'huang'
 
     </script>
 </body>

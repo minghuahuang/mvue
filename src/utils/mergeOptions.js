@@ -27,6 +27,18 @@ lifeCycleHooks.forEach(hook => {
   strats[hook] = mergeHook
 })
 
+strats.components = function(gValue, uValue) {
+  let options = Object.create(gValue)
+
+  if(uValue) {
+    for(let key in uValue) {
+      options[key] = uValue[key]
+    }
+  }
+
+  return options
+}
+
 export function mergeOptions(globalOptions, userOptions) {
   const options = {}
   for(let key in globalOptions) {
@@ -54,7 +66,7 @@ export function mergeOptions(globalOptions, userOptions) {
           ...uValue
         }
       } else {
-        options[key] = uValue
+        options[key] = uValue || gValue
       }
     }
   }

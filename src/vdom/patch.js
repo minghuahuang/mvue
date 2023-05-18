@@ -1,12 +1,26 @@
+function createComponent(vnode) {
+  let i = vnode.data
+  if((i = i.hook) && (i = i.init)) {
+    i() // 调用 init 初始化
+  }
+}
+
 function createElm(vnode) {
-  const { vm, tagName, attrs, key, children, text } = vnode
+  const { vm, tagName, data, key, children, text } = vnode
   if(typeof tagName === 'string') {
+    
+    if(createComponent(vnode)) {
+      // 返回组件真实节点
+
+    }
+
     // 父节点
     vnode.el = document.createElement(tagName) // vnode.el 即 真实dom
     // 子节点
     children.forEach(child => {
       vnode.el.appendChild(createElm(child))
     });
+
   } else {
     vnode.el = document.createTextNode(text)
   }
